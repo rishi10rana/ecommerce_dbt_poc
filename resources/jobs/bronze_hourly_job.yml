@@ -15,6 +15,11 @@ resources:
       queue:
         enabled: true
 
+      environments:
+        - environment_key: Default
+          spec:
+            environment_version: "5"
+
       #Performance: serverless free edition
       performance_target: PERFORMANCE_OPTIMIZED
 

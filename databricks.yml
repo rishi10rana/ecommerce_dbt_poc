@@ -28,10 +28,15 @@ workspace:
   host: https://dbc-0e9a0add-0993.cloud.databricks.com/
   root_path: "~/.bundle/${bundle.name}/${bundle.target}"
 
-artifacts:
-  dbt_ecommerce_project:
-    type: files
-    source_path: .
+sync:
+  include:
+    - .
+  exclude:
+    - .git/**
+    - .venv/**
+    - dbt_packages/**
+    - logs/**
+    - target/**
 
 targets:
   dev:
@@ -44,7 +49,6 @@ targets:
 
   prod:
     mode: production
-    default: true
     variables:
       catalog: "dbt_ecommerce_prod"
       dbt_target: "prod"

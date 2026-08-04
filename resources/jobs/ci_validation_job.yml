@@ -3,7 +3,7 @@
 resources:
   jobs:
     ecommerce_ci_validation:
-      name: "[${bundle.target}]" ecommerce - CI Validation (PR Check)
+      name: "[${bundle.target}] ecommerce - CI Validation (PR Check)"
       tags:
         team: "data-engineering"
         type: "ci"
@@ -11,6 +11,11 @@ resources:
 
       queue:
         enabled: true
+    
+      environments:
+        - environment_key: Default
+          spec:
+            environment_version: "5"
 
       performance_target: PERFORMANCE_OPTIMIZED
       tasks:
