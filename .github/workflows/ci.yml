@@ -1,0 +1,45 @@
+# CI Pipeline - runs on every PR targeting main
+name: CI - Validate and Test on PR
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-and-deploy-dev:
+    name: "Bundle Validate + Deploy Dev"
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1 - Checkout the PR branch
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    # 2 - Install Databricks CLI
+    - name: Install Databricks CLI
+      run: |
+          curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
+    
+    # 3 - Validate bundle YAML (it catches the config errors early)
+    - name: Validate Bundle (Dev)
+      run: databricks bundle validate --target dev
+      env:
+        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+        DATABRICKS_TOKEN: $ {{ secrets.DATABRICKS_TOKEN }}
+
+    # 4 - Deploy bundle to dev
+    - name: Deploy Bundle to Dev
+      run: databricks bundle deploy --target dev
+      env:
+        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+        DATABRICKS_TOKEN: $ {{ secrets.DATABRICKS_TOKEN }}
+    
+    # 5 - Run CI validation job in Databricks
+    # This triggers the actual dbt compile + run inside Databricks
+    - name: Run CI Validation Job
+      run: databricks bundle run ecommerce_ci_validation --target dev
+
+      env:
+        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+        DATABRICKS_TOKEN: $ {{ secrets.DATABRICKS_TOKEN }}
+        
