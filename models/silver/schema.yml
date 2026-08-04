@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: slv_customers
+    description: "Cleaned and deduplicated customer records"
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: email
+        tests:
+          - not_null
+        
+  - name: slv_orders_merge
+    description: "Cleaned order headers using merge incremental strategy"
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      - name: status
+        tests:
+          - accepted_values:
+              values: ['PENDING', 'PROCESSING', 'SHIPPED', 'DELIVERED', 'CANCELLED', 'RETURNED']
+  
+  - name: slv_products
+    description: "Cleaned product catalog with margin calculations"
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: unit_price
+        tests:
+          - dbt_expectations.expect_column_values_to_be_between:
+              min_value: 0.01
+              max_value: 10000000

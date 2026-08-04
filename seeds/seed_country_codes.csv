@@ -1,0 +1,12 @@
+country_code,country_name,region,currency_code,is_high_value_market
+US,United States,North America,USD,1
+IN,India,Asia Pacific,INR,1
+GB,United Kingdom,Europe,GBP,1
+DE,Germany,Europe,EUR,1
+AU,Australia,Oceania,AUD,1
+CA,Canada,North America,CAD,1
+SG,Singapore,Asia Pacific,SGD,1
+AE,United Arab Emirates,Middle East,AED,1
+JP,Japan,Asia Pacific,JPY,1
+FR,France,Europe,EUR,1
+BR,Brazil,South America,BRL,0

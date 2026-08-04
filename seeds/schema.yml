@@ -1,0 +1,23 @@
+version: 2
+
+seeds:
+  - name: seed_country_codes
+    description: "ISO country code reference data with market tiers"
+    columns:
+      - name: country_code
+        description: "Primary key 2-letter ISO Code"
+        data_tests:
+          - unique
+          - not_null
+      - name: country_name
+        data_tests:
+          - not_null
+
+  - name: seed_payment_methods
+    description: "Mapping of payment methods to higher-level payment categories"
+    columns:
+      - name: payment_method
+        data_tests:
+          - unique
+          - not_null
+          

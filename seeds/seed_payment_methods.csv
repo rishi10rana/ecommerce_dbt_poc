@@ -1,0 +1,8 @@
+payment_method,payment_category,requires_gateway,is_digital
+CREDIT_CARD,Card,1,1
+DEBIT_CARD,Card,1,1
+PAYPAL,Digital Wallet,1,1
+WALLET,Digital Wallet,1,1
+BANK_TRANSFER,Bank,0,1
+COD,Cash,0,0
+CRYPTO,Cryptocurrency,0,1

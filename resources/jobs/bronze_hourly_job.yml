@@ -1,0 +1,54 @@
+# Job 1: Bronze Hourly Refresh
+resources:
+  jobs:
+    ecommerce_bronze_hourly:
+      name: "[${bundle.target}] ecommerce - Bronze Hourly Refresh"
+
+      # Tags
+      tags:
+        team: "data-engineering"
+        layer: "bronze"
+        project: "ecommerce_dbt_poc"
+        env: "${bundle.target}"
+
+      # Queue:
+      queue:
+        enabled: true
+
+      #Performance: serverless free edition
+      performance_target: PERFORMANCE_OPTIMIZED
+
+      # Schedule: every hour (PAUSED in dev/qa)
+      # We UNPAUSE this in prod target
+      schedule:
+        quartz_cron_expression: "0 0 * * * ?"
+        timezone_id: "Asia/Kolkata"
+        pause_status: PAUSED                       
+
+      # Email alerts on failure
+      email_notifications:
+        on_failure:
+          - "ranarishi298@gmail.com"             
+
+      # Tasks
+      tasks:
+        - task_key: dbt_bronze_run
+          # dbt_task = native Databricks dbt runner
+          dbt_task:
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+
+            # profiles.yml is in the same folder as dbt_project.yml
+            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+
+            # dbt commands run in sequence — one failure stops the rest
+            commands:
+              - "dbt deps"
+              - "dbt run --selector houly_pipeline --target ${var.dbt_target}"
+              - "dbt test --selector houly_pipeline --target ${var.dbt_target}"
+
+            # The serverless SQL warehouse — where actual SQL executes
+            warehouse_id: "${var.warehouse_id}"
+
+            # catalog: which Unity Catalog to use (dev/prod)
+            # This matches catalog: in your profiles.yml per target
+            catalog: "${var.catalog}"

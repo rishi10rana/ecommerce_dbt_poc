@@ -1,0 +1,38 @@
+# Job 3: CI Validation Job
+# this job is triggered manually by Github Actions on PR
+resources:
+  jobs:
+    ecommerce_ci_validation:
+      name: "[${bundle.target}]" ecommerce - CI Validation (PR Check)
+      tags:
+        team: "data-engineering"
+        type: "ci"
+        project: "ecommerce_dbt_poc"
+
+      queue:
+        enabled: true
+
+      performance_target: PERFORMANCE_OPTIMIZED
+      tasks:
+        - task_key: dbt_compile_check
+          dbt_task:
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            commands:
+              - "dbt deps"
+              - "dbt compile --target ${var.dbt_target}"
+            warehouse_id: "${var.warehouse_id}"
+            catalog: "${var.catalog}"
+        - task_key: dbt_run_modified
+          depends_on:
+            - task_key: dbt_compile_check
+          dbt_task:
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            commands:
+              # Slim CI: only run models that changed vs prod manifest
+              # If no manifest exists, runs all models (safe fallback)
+              - "dbt run --target ${var.dbt_target}"
+              - "dbt test --target ${var.dbt_target}"
+            warehouse_id: "${var.warehouse_id}"
+            catalog: "${var.catalog}"

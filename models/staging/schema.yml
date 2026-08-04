@@ -1,0 +1,25 @@
+version: 2
+models:
+  - name: stg_customer_metrics
+    description: "Customer behavioral metrics and recency segmentation"
+    columns:
+      - name: customer_id
+        tests:
+          - unique
+          - not_null
+      - name: customer_recency_status
+        tests:
+          - accepted_values:
+              values: ['NEVER_ORDERED', 'ACTIVE', 'AT_RISK', 'CHURNED']
+  
+  - name: stg_product_inventory
+    description: "Aggregated stock levels and stock health flags per product"
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+      - name: stock_health_status
+        tests:
+          - accepted_values:
+              values: ['UNLIMITED', 'OUT_OF_STOCK', 'LOW_STOCK_WARNING', 'HEALTHY']

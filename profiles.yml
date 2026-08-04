@@ -1,0 +1,27 @@
+ecommerce_dbt_poc:
+  outputs:
+    dev:
+      catalog: dbt_ecommerce_dev
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      schema: dbt_dev
+      threads: "{{ env_var('DBT_THREADS', '4') | int }}"
+      token: "{{ env_var('DATABRICKS_TOKEN', '') }}"
+      type: databricks
+    qa:
+      catalog: dbt_ecommerce_qa
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      schema: dev_qa
+      threads: "{{ env_var('DBT_THREADS', '4') | int }}"
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      type: databricks
+    prod:
+      catalog: dbt_ecommerce_prod
+      host: "{{ env_var('DATABRICKS_HOST') }}"
+      http_path: "{{ env_var('DATABRICKS_HTTP_PATH') }}"
+      schema: dbt_prod
+      threads: "{{ env_var('DBT_THREADS', '4') | int }}"
+      token: "{{ env_var('DATABRICKS_TOKEN') }}"
+      type: databricks
+  target: dev

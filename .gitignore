@@ -1,0 +1,35 @@
+# dbt build artifacts
+target/
+dbt_packages/
+logs/
+.env
+
+# environment varibles
+.env
+*.env
+
+# vs code settings
+.vscode/
+
+# Environment file — NEVER commit secrets
+.env
+*.env
+**/.env
+
+# dbt compilation artifacts
+target/**
+
+# Databricks CLI local config (if any)
+.databricks/
+
+# Python virtual environments
+.venv/
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Lock files (optional — can commit for reproducibility)
+# package-lock.yml

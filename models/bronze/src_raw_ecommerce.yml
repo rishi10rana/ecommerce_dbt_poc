@@ -1,0 +1,33 @@
+version: 2
+sources:
+  - name: raw_ecommerce
+    description: "Raw landed tables ingested from Oracle AI Autonomous Database via Lakeflow Connect Query based Connector."
+    database: dbt_cloud
+    schema: raw_ecommerce
+    tables:
+      - name: customers
+        description: "Raw customer master data"
+        loaded_at_field: updated_at
+        freshness:
+          warn_after: {count: 24, period: hour}
+          error_after: {count: 48, period: hour}
+      - name: products
+        description: "Raw product catalog data"
+      - name: orders
+        description: "Raw order header records"
+      - name: order_items
+        description: "Raw order line item records"
+      - name: payments
+        description: "Raw payment transaction records"
+      - name: inventory
+        description: "Raw warehouse stock levels"
+      - name: returns
+        description: "Raw return and refund requests"
+      - name: reviews
+        description: "Raw product reviews and ratings"
+      - name: employees
+        description: "Raw employees and sales rep data"
+      - name: promotions
+        description: "Raw promotion and discount campaign data"
+
+         

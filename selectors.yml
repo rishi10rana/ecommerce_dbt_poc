@@ -1,0 +1,15 @@
+selectors:
+    - name: houly_pipeline
+      description: "All models that refresh every hour"
+      definition:
+        tag: hourly
+    
+    - name: daily_pipeline
+      description: "All models that refresh every day"
+      definition:
+        tag: daily
+
+    - name: gold_only
+      description: "Only Gold Mart final models"
+      definition:
+        tag: layer_gold

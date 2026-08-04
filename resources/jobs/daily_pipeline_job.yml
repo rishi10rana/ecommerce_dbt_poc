@@ -1,0 +1,85 @@
+# Job 2: Daily Full Pipeline
+resources:
+  jobs:
+    ecommerce_daily_pipeline:
+      name: "[${bundle.target}] Ecommerce - Daily Full Pipeline"
+      tags:
+        team: "data-engineering"
+        project: "ecommerce_dbt_poc"
+        env: "{bundle.target}"
+
+      queue:
+        enabled: true
+      
+      performance_target: PERFORMANCE_OPTIMIZED
+
+      schedule:
+        quartz_cron_expression: "0 0 2 * * ?"    # 2:00 AM every day
+        timezone_id: "Asia/Kolkata"
+        pause_status: PAUSED
+      
+      email_notifications:
+        on_failure:
+          - "ranarishi298@gmail.com"
+      
+      tasks:
+        - task_key: dbt_seed
+          dbt_task:
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            commands:
+              - "dbt deps"
+              - "dbt seed --target ${var.dbt_target}"
+            warehouse_id: "${var.warehouse_id}"
+            catalog: "${var.catalog}"
+
+        # Task 1: Bronze
+        - task_key: dbt_bronze_run
+          depends_on:
+            - task_key: dbt_seed
+          dbt_task:
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            commands:
+              - "dbt run --select tag:layer_bronze --target ${var.dbt_target}"
+              - "dbt test --select tag:layer_bronze --target ${var.dbt_target}"
+            warehouse_id: "${var.warehouse_id}"
+            catalog: "${var.catalog}"
+
+        # Task 2: Silver (depends on seed)
+        - task_key: dbt_silver_run
+          depends_on:
+            - task_key: dbt_bronze_run
+          dbt_task:
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            commands:
+              - "dbt run --select tag:layer_silver --target ${var.dbt_target}"
+              - "dbt test --select tag:layer_silver --target ${var.dbt_target}"
+            warehouse_id: "${var.warehouse_id}"
+            catalog: "${var.catalog}"
+        
+        # Task 3: Gold (depends on silver)
+        - task_key: dbt_gold_run
+          depends_on:
+            - task_key: dbt_silver_run
+          dbt_task:
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            commands:
+              - "dbt run --selector gold_only --target ${var.dbt_target}"
+              - "dbt test --selector gold_only --target ${var.dbt_target}"
+            warehouse_id: "${var.warehouse_id}"
+            catalog: "${var.catalog}"
+
+        # ── Task 4: Snapshots (depends on silver, runs parallel to gold) ─
+        - task_key: dbt_snapshot
+          depends_on:
+            - task_key: dbt_silver_run  
+          dbt_task:
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            commands:
+              - "dbt snapshot --target ${var.dbt_target}"
+            warehouse_id: "${var.warehouse_id}"
+            catalog: "${var.catalog}"

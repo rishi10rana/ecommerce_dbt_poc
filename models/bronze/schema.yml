@@ -1,0 +1,35 @@
+version: 2
+models:
+  - name: brz_customers
+    description: "Bronze view for raw customer records"
+    columns:
+      - name: customer_id
+        description: "Primary Key"
+        tests:
+          - unique
+          - not_null
+
+  - name: brz_products
+    description: "Bronze view for raw product catalog"
+    columns:
+      - name: product_id
+        description: "Primary Key"
+        tests:
+          - unique
+          - not_null
+  - name: brz_order_items
+    description: "Bronze view for line items"
+    columns:
+      - name: order_item_id
+        description: "Primary Key"
+        tests:
+          - unique
+          - not_null
+  - name: brz_orders
+    description: "Bronze view for order headers"
+    columns:
+      - name: order_id
+        description: "Primary Key"
+        tests:
+          - unique
+          - not_null

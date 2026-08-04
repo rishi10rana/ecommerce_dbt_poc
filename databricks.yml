@@ -1,0 +1,65 @@
+# Databricks Asset Bundles (Github CI / CD)
+bundle:
+  name: ecommerce_dbt_dab
+
+# INCLUDE — tells DAB to pull in all job YAMLs from resources/
+include:
+  - resources/jobs/*.yml
+  - resources/*.yml
+
+variables:
+    warehouse_id:
+      description: "Serverless Starter Warehouse ID"
+      default: "737d0afc3b2dcc10"
+    
+    catalog:
+      description: "Unity Catalog catalog name for this target"
+      default: "dbt" # overridden per target below
+
+    dbt_target:
+      description: "dbt target to run against (dev / qa / prod)"
+      default: "dev"  
+    
+    dbt_threads:
+      description: "Number of parallel dbt threads"
+      default: "4"
+
+workspace:
+  host: https://dbc-0e9a0add-0993.cloud.databricks.com/
+  root_path: "~/.bundle/${bundle.name}/${bundle.target}"
+
+artifacts:
+  dbt_ecommerce_project:
+    type: files
+    source_path: .
+
+targets:
+  dev:
+    mode: development
+    default: true
+    variables:
+      catalog: "dbt_ecommerce_dev"
+      dbt_target: "dev"
+      dbt_threads: "4"
+
+  prod:
+    mode: production
+    default: true
+    variables:
+      catalog: "dbt_ecommerce_prod"
+      dbt_target: "prod"
+      dbt_threads: "8"
+    
+    resources:
+      jobs:
+        ecommerce_bronze_hourly:
+          schedule:
+            pause_status: UNPAUSED
+
+        ecommerce_daily_pipeline:
+          schedule:
+            pause_status: UNPAUSED      
+    
+        ecommerce_ci_validation:
+          schedule:
+            pause_status: PAUSED

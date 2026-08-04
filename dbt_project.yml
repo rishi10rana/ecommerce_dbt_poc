@@ -1,0 +1,89 @@
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'ecommerce_dbt_poc'
+version: '1.0.0'
+config-version: 2
+
+# This setting configures which "profile" dbt uses for this project.
+profile: 'ecommerce_dbt_poc'
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory. You probably won't need to change these!
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+  - "target"
+  - "dbt_packages"
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+
+# In dbt, the default materialization for a model is a view. This means, when you run 
+# dbt run or dbt build, all of your models will be built as a view in your data platform. 
+# The configuration below will override this setting for models in the example folder to 
+# instead be materialized as tables. Any models you add to the root of the models folder will 
+# continue to be built as views. These settings can be overridden in the individual model files
+# using the `{{ config(...) }}` macro.
+
+# Global varibles can be accessed using {{ var('variable_name') }}
+vars:
+  start_date: '2023-01-01'
+  default_currency: 'USD'
+  tax_rate_standard: 0.08
+
+# Execution hooks - run automatically at start and end of dbt run
+on-run-start:
+  - "{{ log_run_start() }}"
+
+on-run-end:
+  - "{{ log_run_end() }}"
+
+
+# Models Configuration
+models:
+  ecommerce_dbt_poc:
+    # Applies to all files under models/example/
+    # views directly over raw_ecommerce
+    bronze:
+      +schema: bronze_ecommerce
+      +materialized: view
+      +tags: ['layer_bronze', 'raw_views', 'hourly']
+    
+    # delta tables with incremental loading strategy
+    silver:
+      +schema: silver_ecommerce
+      +materialized: incremental
+      +tags: ['layer_silver', 'cleansed', 'daily']
+      +file_format: delta
+    
+    # lightweight views for buisness prep
+    staging:
+      +schema: staging_ecommerce
+      +materialized: view
+      +tags: ['layer_staging']
+    
+    # delta tables for analytics mart
+    gold:
+      +schema: gold_mart
+      +materialized: table
+      +tags: ['layer_gold', 'mart', 'daily']
+      +file_format: delta
+  
+# Seeds Configuration
+seeds:
+  ecommerce_dbt_poc:
+    +schema: seed_data
+    +quote_columns: false
+  
+# Snapshot Configuration
+snapshots:
+  ecommerce_dbt_poc:
+    +target_schema: snapshots
