@@ -29,11 +29,8 @@ workspace:
   root_path: "~/.bundle/${bundle.name}/${bundle.target}"
 
 sync:
-  include:
-    - .
   exclude:
     - .git/**
-    - .venv/**
     - dbt_packages/**
     - logs/**
     - target/**
@@ -43,14 +40,14 @@ targets:
     mode: development
     default: true
     variables:
-      catalog: "dbt_ecommerce_dev"
+      catalog: "dbt_ecommerce_dev_version2"
       dbt_target: "dev"
       dbt_threads: "4"
 
   prod:
     mode: production
     variables:
-      catalog: "dbt_ecommerce_prod"
+      catalog: "dbt_ecommerce_prod_version2"
       dbt_target: "prod"
       dbt_threads: "8"
     

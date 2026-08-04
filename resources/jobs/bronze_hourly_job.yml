@@ -16,7 +16,7 @@ resources:
         enabled: true
 
       environments:
-        - environment_key: Default
+        - environment_key: default
           spec:
             environment_version: "5"
 
@@ -57,3 +57,4 @@ resources:
             # catalog: which Unity Catalog to use (dev/prod)
             # This matches catalog: in your profiles.yml per target
             catalog: "${var.catalog}"
+          environment_key: default
