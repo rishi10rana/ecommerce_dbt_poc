@@ -35,7 +35,7 @@ resources:
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
               - "dbt deps"
-              - "dbt seed --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
+              - "dbt seed"
             warehouse_id: "${var.warehouse_id}"
             catalog: "${var.catalog}"
           environment_key: default
@@ -48,8 +48,8 @@ resources:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
-              - "dbt run --select tag:layer_bronze --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
-              - "dbt test --select tag:layer_bronze --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
+              - "dbt run --select tag:layer_bronze"
+              - "dbt test --select tag:layer_bronze"
             warehouse_id: "${var.warehouse_id}"
             catalog: "${var.catalog}"
           environment_key: default
@@ -62,8 +62,8 @@ resources:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
-              - "dbt run --select tag:layer_silver --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
-              - "dbt test --select tag:layer_silver --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
+              - "dbt run --select tag:layer_silver"
+              - "dbt test --select tag:layer_silver
             warehouse_id: "${var.warehouse_id}"
             catalog: "${var.catalog}"
           environment_key: default
@@ -76,8 +76,8 @@ resources:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
-              - "dbt run --selector gold_only --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
-              - "dbt test --selector gold_only --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
+              - "dbt run --selector gold_only"
+              - "dbt test --selector gold_only"
             warehouse_id: "${var.warehouse_id}"
             catalog: "${var.catalog}"
           environment_key: default
@@ -90,7 +90,7 @@ resources:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
-              - "dbt snapshot --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
+              - "dbt snapshot"
             warehouse_id: "${var.warehouse_id}"
             catalog: "${var.catalog}"
           environment_key: default

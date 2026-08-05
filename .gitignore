@@ -3,6 +3,7 @@ target/
 dbt_packages/
 logs/
 .env
+profiles.yml
 
 # environment varibles
 .env

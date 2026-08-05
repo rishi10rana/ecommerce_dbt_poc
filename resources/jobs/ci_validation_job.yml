@@ -27,7 +27,7 @@ resources:
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
               - "dbt deps"
-              - "dbt compile --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
+              - "dbt compile"
             warehouse_id: "${var.warehouse_id}"
             catalog: "${var.catalog}"
           environment_key: default
@@ -41,8 +41,8 @@ resources:
             commands:
               # Slim CI: only run models that changed vs prod manifest
               # If no manifest exists, runs all models (safe fallback)
-              - "dbt run --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
-              - "dbt test --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
+              - "dbt run"
+              - "dbt test"
             warehouse_id: "${var.warehouse_id}"
             catalog: "${var.catalog}"
           environment_key: default
