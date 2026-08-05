@@ -41,6 +41,7 @@ resources:
             commands:
               # Slim CI: only run models that changed vs prod manifest
               # If no manifest exists, runs all models (safe fallback)
+              - "dbt deps"
               - "dbt run"
               - "dbt test"
             warehouse_id: "${var.warehouse_id}"

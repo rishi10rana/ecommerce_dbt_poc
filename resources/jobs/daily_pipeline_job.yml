@@ -48,6 +48,7 @@ resources:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
+              - "dbt deps"
               - "dbt run --select tag:layer_bronze"
               - "dbt test --select tag:layer_bronze"
             warehouse_id: "${var.warehouse_id}"
@@ -62,6 +63,7 @@ resources:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
+              - "dbt deps"
               - "dbt run --select tag:layer_silver"
               - "dbt test --select tag:layer_silver"
             warehouse_id: "${var.warehouse_id}"
@@ -76,6 +78,7 @@ resources:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
+              - "dbt deps"
               - "dbt run --selector gold_only"
               - "dbt test --selector gold_only"
             warehouse_id: "${var.warehouse_id}"
@@ -90,6 +93,7 @@ resources:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
+              - "dbt deps"
               - "dbt snapshot"
             warehouse_id: "${var.warehouse_id}"
             catalog: "${var.catalog}"
