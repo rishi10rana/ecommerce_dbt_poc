@@ -6,7 +6,6 @@ resources:
       tags:
         team: "data-engineering"
         project: "ecommerce_dbt_poc"
-        env: "{bundle.target}"
 
       queue:
         enabled: true
@@ -31,7 +30,7 @@ resources:
         - task_key: dbt_seed
           dbt_task:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
-            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
             commands:
               - "dbt deps"
               - "dbt seed --target ${var.dbt_target}"
@@ -45,7 +44,7 @@ resources:
             - task_key: dbt_seed
           dbt_task:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
-            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
             commands:
               - "dbt run --select tag:layer_bronze --target ${var.dbt_target}"
               - "dbt test --select tag:layer_bronze --target ${var.dbt_target}"
@@ -59,7 +58,7 @@ resources:
             - task_key: dbt_bronze_run
           dbt_task:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
-            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
             commands:
               - "dbt run --select tag:layer_silver --target ${var.dbt_target}"
               - "dbt test --select tag:layer_silver --target ${var.dbt_target}"
@@ -73,7 +72,7 @@ resources:
             - task_key: dbt_silver_run
           dbt_task:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
-            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
             commands:
               - "dbt run --selector gold_only --target ${var.dbt_target}"
               - "dbt test --selector gold_only --target ${var.dbt_target}"
@@ -87,7 +86,7 @@ resources:
             - task_key: dbt_silver_run  
           dbt_task:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
-            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
             commands:
               - "dbt snapshot --target ${var.dbt_target}"
             warehouse_id: "${var.warehouse_id}"

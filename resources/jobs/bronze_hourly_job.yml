@@ -9,7 +9,6 @@ resources:
         team: "data-engineering"
         layer: "bronze"
         project: "ecommerce_dbt_poc"
-        env: "${bundle.target}"
 
       # Queue:
       queue:
@@ -43,7 +42,7 @@ resources:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
 
             # profiles.yml is in the same folder as dbt_project.yml
-            profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
 
             # dbt commands run in sequence — one failure stops the rest
             commands:
