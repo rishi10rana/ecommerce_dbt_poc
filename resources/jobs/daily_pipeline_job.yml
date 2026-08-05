@@ -48,7 +48,7 @@ resources:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
-              - "dbt run --select tag:layer_bronze --target ${var.dbt_target}" --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
+              - "dbt run --select tag:layer_bronze --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
               - "dbt test --select tag:layer_bronze --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
             warehouse_id: "${var.warehouse_id}"
             catalog: "${var.catalog}"
