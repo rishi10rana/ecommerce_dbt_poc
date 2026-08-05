@@ -49,8 +49,8 @@ resources:
             # dbt commands run in sequence — one failure stops the rest
             commands:
               - "dbt deps"
-              - "dbt run --selector houly_pipeline --target ${var.dbt_target}"
-              - "dbt test --selector houly_pipeline --target ${var.dbt_target}"
+              - "dbt run --selector houly_pipeline --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
+              - "dbt test --selector houly_pipeline --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
 
             # The serverless SQL warehouse — where actual SQL executes
             warehouse_id: "${var.warehouse_id}"
