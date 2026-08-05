@@ -27,7 +27,7 @@ resources:
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
               - "dbt deps"
-              - "dbt compile --target ${var.dbt_target}"
+              - "dbt compile --target ${var.dbt_target} --profiles-dir /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/"
             warehouse_id: "${var.warehouse_id}"
             catalog: "${var.catalog}"
           environment_key: default
