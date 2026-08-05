@@ -56,7 +56,10 @@ targets:
       dbt_target: "prod"
       dbt_threads: "8"
       schema: "dbt_prod"
-    
+    workspace:
+      # Production MUST use explicit absolute path (no ~ shortcut)
+      # This guarantees only ONE prod deployment ever exists
+      root_path: /Workspace/Users/ranarishi298@gmail.com/.bundle/${bundle.name}/${bundle.target}
     resources:
       jobs:
         ecommerce_bronze_hourly:
@@ -65,8 +68,4 @@ targets:
 
         ecommerce_daily_pipeline:
           schedule:
-            pause_status: UNPAUSED      
-    
-        ecommerce_ci_validation:
-          schedule:
-            pause_status: PAUSED
+            pause_status: UNPAUSED
