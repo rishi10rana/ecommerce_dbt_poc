@@ -55,7 +55,7 @@ resources:
             catalog: "${var.catalog}"
           environment_key: default
 
-        # Task 2: Silver (depends on seed)
+        # Task 2: Silver (depends on bronze)
         - task_key: dbt_silver_run
           depends_on:
             - task_key: dbt_bronze_run
@@ -70,7 +70,22 @@ resources:
             catalog: "${var.catalog}"
           environment_key: default
 
-        # Task 3: Gold (depends on silver)
+        # Task 3: Staging (depends on silver)
+        - task_key: dbt_staging_run
+          depends_on:
+            - task_key: dbt_silver_run
+          dbt_task:
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
+            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
+            commands:
+              - "dbt deps"
+              - "dbt run --select tag:layer_staging"
+              - "dbt test --select tag:layer_staging"
+            warehouse_id: "${var.warehouse_id}"
+            catalog: "${var.catalog}"
+          environment_key: default
+
+        # Task 4: Gold (depends on silver)
         - task_key: dbt_gold_run
           depends_on:
             - task_key: dbt_silver_run
@@ -85,7 +100,7 @@ resources:
             catalog: "${var.catalog}"
           environment_key: default
 
-        # ── Task 4: Snapshots (depends on silver, runs parallel to gold) ─
+        # ── Task 5: Snapshots (depends on silver, runs parallel to gold) ─
         - task_key: dbt_snapshot
           depends_on:
             - task_key: dbt_silver_run  
