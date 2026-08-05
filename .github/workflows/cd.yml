@@ -1,5 +1,5 @@
-# CD Pipeline - runs on every push/merge to main
 name: CD - Deploy to Production
+
 on:
   push:
     branches:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy-prod:
-    name: "Deploy Bundle to Prod"
+    name: Deploy Bundle to Prod
     runs-on: ubuntu-latest
 
     steps:
@@ -19,25 +19,23 @@ jobs:
       - name: Install Databricks CLI
         run: |
           curl -fsSL https://raw.githubusercontent.com/databricks/setup-cli/main/install.sh | sh
-        
+
       # 3 - Validate bundle for prod
       - name: Validate Bundle (Prod)
         run: databricks bundle validate --target prod
         env:
-          env:
-        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-      
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
       # 4 - Deploy to prod
       - name: Deploy Bundle to Prod
-      run: databricks bundle deploy --target prod
-      env:
-        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
-      
-      - name: Trigger Daily Pipeline (optional or leave to run scheduled)
-        run: databricks bundle run ecommerce_
-        daily_pipeline --target prod
+        run: databricks bundle deploy --target prod
         env:
-        DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+      - name: Trigger Daily Pipeline
+        run: databricks bundle run ecommerce_daily_pipeline --target prod
+        env:
+          DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
