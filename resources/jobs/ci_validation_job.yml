@@ -16,6 +16,8 @@ resources:
         - environment_key: default
           spec:
             environment_version: "5"
+            dependencies:
+              - dbt-databricks>=1.9.0
 
       performance_target: PERFORMANCE_OPTIMIZED
       tasks:

@@ -18,6 +18,8 @@ resources:
         - environment_key: default
           spec:
             environment_version: "5"
+            dependencies:
+              - dbt-databricks>=1.9.0
 
       #Performance: serverless free edition
       performance_target: PERFORMANCE_OPTIMIZED
