@@ -39,10 +39,10 @@ resources:
         - task_key: dbt_bronze_run
           # dbt_task = native Databricks dbt runner
           dbt_task:
-            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
 
             # profiles.yml is in the same folder as dbt_project.yml
-            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
 
             # dbt commands run in sequence — one failure stops the rest
             commands:

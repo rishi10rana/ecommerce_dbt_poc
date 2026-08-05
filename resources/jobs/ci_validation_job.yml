@@ -21,8 +21,8 @@ resources:
       tasks:
         - task_key: dbt_compile_check
           dbt_task:
-            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
-            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
+            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
               - "dbt deps"
               - "dbt compile --target ${var.dbt_target}"
@@ -34,8 +34,8 @@ resources:
           depends_on:
             - task_key: dbt_compile_check
           dbt_task:
-            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
-            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/ecommerce_dbt_poc
+            project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
+            # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             commands:
               # Slim CI: only run models that changed vs prod manifest
               # If no manifest exists, runs all models (safe fallback)
