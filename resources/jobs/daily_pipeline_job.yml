@@ -85,10 +85,10 @@ resources:
             catalog: "${var.catalog}"
           environment_key: default
 
-        # Task 4: Gold (depends on silver)
+        # Task 4: Gold (depends on staging)
         - task_key: dbt_gold_run
           depends_on:
-            - task_key: dbt_silver_run
+            - task_key: dbt_staging_run
           dbt_task:
             project_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
             # profiles_directory: /Workspace/Users/${workspace.current_user.userName}/.bundle/ecommerce_dbt_dab/${bundle.target}/files/
