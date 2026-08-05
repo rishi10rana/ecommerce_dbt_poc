@@ -26,18 +26,18 @@ jobs:
         env:
           env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: $ {{ secrets.DATABRICKS_TOKEN }}
+        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       
       # 4 - Deploy to prod
       - name: Deploy Bundle to Prod
       run: databricks bundle deploy --target prod
       env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: $ {{ secrets.DATABRICKS_TOKEN }}
+        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
       
       - name: Trigger Daily Pipeline (optional or leave to run scheduled)
         run: databricks bundle run ecommerce_
         daily_pipeline --target prod
         env:
         DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
-        DATABRICKS_TOKEN: $ {{ secrets.DATABRICKS_TOKEN }}
+        DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
