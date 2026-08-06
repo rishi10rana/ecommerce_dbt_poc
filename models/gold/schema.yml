@@ -56,5 +56,21 @@ models:
       - name: discount_rate_pct
         tests:
           - not_negative
-        
+
+  - name: mart_sales_daily_summary
+    description: "Daily sales summary combining orders and payment - Gold mart layer"
+    columns:
+      - name: order_day
+        description: "The calender date of the orders"
+        tests:
+          - not_null
+          - unique
+      - name: total_orders
+        description: "Total number of non-cancelled orders on this day"
+        tests:
+          - not_null
+      - name: gross_revenue
+        description: "Sum of total_amount for non-cancelled orders"
+      - name: collection_rate_pct
+        description: "Percentage of gross revenue actually collected via payments"
           
