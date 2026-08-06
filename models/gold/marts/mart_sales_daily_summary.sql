@@ -11,17 +11,17 @@ WITH daily_orders AS (
         COUNT(DISTINCT customer_id) as unique_customers,
         SUM(total_amount) AS gross_revenue
     FROM {{ ref('slv_orders_merge') }}
-    WHERE order_status != 'cancelled'
+    WHERE status != 'cancelled'
     GROUP BY DATE(order_date)
 ),
 
 daily_payments AS (
     SELECT
         DATE(payment_date) AS payment_day,
-        SUM(payment_amount) AS total_collected,
+        SUM(amount) AS total_collected,
         COUNT(DISTINCT payment_id) AS total_transactions
     FROM {{ ref('slv_payments') }}
-    WHERE payment_status = 'completed'
+    WHERE status = 'completed'
     GROUP BY DATE(payment_date)
 )
 
